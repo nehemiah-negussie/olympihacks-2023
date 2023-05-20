@@ -1,7 +1,18 @@
+:root {
+    --smoky-black: #131200ff;
+    --mantis: #78bc61ff;
+    --sage: #c0c781ff;
+    --lion: #c59b76ff;
+    --salmon: #e9806eff;
+}
+
+body {
+    margin: 0;
+}
+
 .landing-page {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 40px;
+    margin: 0;
+    padding: 0px;
 }
 
 header {
@@ -17,7 +28,7 @@ h1 {
 
 p {
     font-size: 18px;
-    color: #777;
+    color: var(--smoky-black);
 }
 
 .features {
@@ -49,7 +60,7 @@ h2 {
 
 .cta-section p {
     font-size: 16px;
-    color: #777;
+    color: var(--smoky-black);
     margin-bottom: 30px;
 }
 
@@ -58,14 +69,14 @@ h2 {
     font-size: 18px;
     font-weight: bold;
     color: #fff;
-    background-color: #007bff;
+    background-color: var(--mantis);
     border: none;
     border-radius: 4px;
     cursor: pointer;
 }
 
 .cta-button:hover {
-    background-color: #0056b3;
+    background-color: var(--sage);
 }
 
 footer {
@@ -75,7 +86,7 @@ footer {
 
 footer p {
     font-size: 14px;
-    color: #777;
+    color: var(--smoky-black);
 }
 
 #navbar {
@@ -96,7 +107,7 @@ footer p {
 
 #navbar li a {
     display: block;
-    color: black;
+    color: var(--smoky-black);
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
@@ -104,8 +115,8 @@ footer p {
 }
 
 #navbar li a:hover {
-    background-color: white;
-    color: black;
+    background-color: var(--mantis);
+    color: white;
 }
 
 section {
@@ -124,10 +135,9 @@ section {
 #subtitle {
     flex: 1;
     font-size: 18px;
-    color: #777;
+    color: var(--smoky-black);
     margin-left: 20px;
 }
-
 
 #img_text {
     display: inline-block;
