@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Connection, PublicKey } from "@solana/web3.js";
 import axios from "axios";
 import "../styles/Smart.css";
@@ -146,13 +147,16 @@ const Smart = () => {
 
     return (
         <div className="smart">
-            <nav className="navbar2">
+            <nav className="navbar">
                 <ul>
                     <li>
-                        <a href="/">Home</a>
+                        <Link to="/">Home</Link>
                     </li>
                     <li>
-                        <a href="/app">App</a>
+                        <Link to="/app">App</Link>
+                    </li>
+                    <li>
+                        <Link to="/contract">Contract</Link>
                     </li>
                 </ul>
             </nav>

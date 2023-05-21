@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
 import "../styles/ContractViewer.css";
 
 const ContractViewer = () => {
@@ -34,7 +36,22 @@ const ContractViewer = () => {
   };
 
   return (
+
+
     <div className="container">
+      <nav className="navbar">
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/app">App</Link>
+          </li>
+          <li>
+            <Link to="/contract">Contract</Link>
+          </li>
+        </ul>
+      </nav>
       <h1>Music Blockchain Contract Viewer</h1>
 
       <div id="contract-info">
