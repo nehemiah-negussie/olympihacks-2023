@@ -16,6 +16,7 @@ body {
   left: 0;
   right: 0;
   background-color: rgb(253, 249, 249); /* Set your desired background color */
+  direction: rtl;
   width: 100%;
   z-index: 9999;
 }

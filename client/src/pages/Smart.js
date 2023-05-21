@@ -57,7 +57,7 @@ const Smart = () => {
 
   return (
     <div className="smart">
-      <nav className="navbar">
+      <nav className="navbar2">
         <ul>
           <li>
             <a href="/">Home</a>
