@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
 :root {
   --smoky-black: #131200ff;
   --mantis: #78bc61ff;
@@ -8,6 +10,7 @@
 
 body {
   margin: 0;
+  font-family: 'Roboto', sans-serif;
 }
 
 .navbar {
@@ -15,13 +18,13 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  background-color: rgb(253, 249, 249); /* Set your desired background color */
-  direction: rtl;
+  background-color: #00000000;
   display: flex;
-  width: 100%;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 20px;
   z-index: 9999;
 }
-
 
 .navbar ul {
   list-style-type: none;
@@ -50,7 +53,7 @@ body {
 }
 
 .landing-page {
-  margin-top: 20px; /* Adjust the margin-top value to accommodate the navbar height */
+  margin-top: 60px;
   padding: 30px;
 }
 
@@ -60,14 +63,16 @@ header {
 }
 
 h1 {
-  font-size: 32px;
-  font-weight: bold;
+  font-size: 48px;
+  font-weight: 700;
   margin-bottom: 10px;
+  color: var(--smoky-black);
 }
 
 p {
-  font-size: 18px;
+  font-size: 20px;
   color: var(--smoky-black);
+  line-height: 1.6;
 }
 
 .features {
@@ -82,9 +87,10 @@ p {
 }
 
 h2 {
-  font-size: 24px;
-  font-weight: bold;
+  font-size: 32px;
+  font-weight: 700;
   margin-bottom: 10px;
+  color: var(--smoky-black);
 }
 
 .cta-section {
@@ -98,22 +104,22 @@ h2 {
 }
 
 .cta-section h2 {
-  font-size: 28px;
-  font-weight: bold;
+  font-size: 36px;
+  font-weight: 700;
   margin-bottom: 20px;
+  color: var(--smoky-black);
 }
 
 .cta-section p {
-  font-size: 16px;
+  font-size: 18px;
   color: var(--smoky-black);
   margin-bottom: 30px;
 }
 
-
 .cta-button {
   padding: 10px 20px;
   font-size: 18px;
-  font-weight: bold;
+  font-weight: 700;
   color: #fff;
   background-color: var(--mantis);
   border: none;
@@ -135,6 +141,7 @@ footer p {
   font-size: 14px;
   color: var(--smoky-black);
 }
+
 
 section {
   display: flex;

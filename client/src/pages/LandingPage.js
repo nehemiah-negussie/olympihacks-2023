@@ -13,6 +13,9 @@ const LandingPage = () => {
           <li>
             <Link to="/app">App</Link>
           </li>
+          <li>
+            <Link to="/contract">Contract</Link>
+          </li>
         </ul>
       </nav>
 
@@ -59,7 +62,7 @@ const LandingPage = () => {
         </section>
 
         <section className="cta-section">
-          <h2>Join MusicChain Today</h2>
+          <h2>Join Handshake Today</h2>
           <p>
             Sign up to start exploring, purchasing, and supporting your favorite
             artists.
