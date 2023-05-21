@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Connection, PublicKey } from "@solana/web3.js";
+import axios from "axios";
 import "../styles/Smart.css";
 
 const Smart = () => {
-    const [partner, setPartner] = useState("");
+    const [partners, setPartners] = useState([]);
+    const [newPartner, setNewPartner] = useState("");
     const [walletAddress, setWalletAddress] = useState("");
     const [amount, setAmount] = useState("");
     const [coinType, setCoinType] = useState("");
     const [contractDuration, setContractDuration] = useState("");
     const [signedContract, setSignedContract] = useState(false);
     const [tokenAccounts, setTokenAccounts] = useState([]);
+    const [maxAmount, setMaxAmount] = useState(0);
+    const [selectedFile, setSelectedFile] = useState(null);
 
     useEffect(() => {
         const connectToSolana = async () => {
@@ -30,14 +34,32 @@ const Smart = () => {
         connectToSolana();
     }, []);
 
+    useEffect(() => {
+        if (tokenAccounts.length > 0 && coinType) {
+            const selectedAccount = tokenAccounts.find(
+                (account) => account.pubkey.toBase58() === coinType
+            );
+            if (selectedAccount) {
+                const balance = selectedAccount.account.data.parsed.info.tokenAmount.uiAmount;
+                setMaxAmount(balance);
+            }
+        } else {
+            setMaxAmount(0);
+        }
+    }, [coinType, tokenAccounts]);
+
     const fetchTokenAccounts = async (connection, publicKey) => {
-        const SPL_TOKEN_PROGRAM_ID = new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
+        const SPL_TOKEN_PROGRAM_ID = new PublicKey(
+            "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        );
 
         try {
-            const tokenAccounts = await connection.getParsedTokenAccountsByOwner(publicKey, {
-                programId: SPL_TOKEN_PROGRAM_ID
-            });
-            console.log(tokenAccounts.value);
+            const tokenAccounts = await connection.getParsedTokenAccountsByOwner(
+                publicKey,
+                {
+                    programId: SPL_TOKEN_PROGRAM_ID,
+                }
+            );
             setTokenAccounts(tokenAccounts.value);
         } catch (error) {
             console.error(error);
@@ -46,16 +68,37 @@ const Smart = () => {
     };
 
     const handlePartnerChange = (event) => {
-        setPartner(event.target.value);
+        const selectedOptions = Array.from(event.target.options)
+            .filter((option) => option.selected)
+            .map((option) => option.value);
+        setPartners(selectedOptions);
+    };
+
+    const handleNewPartnerChange = (event) => {
+        setNewPartner(event.target.value);
+    };
+
+    const handleNewPartnerSubmit = (event) => {
+        event.preventDefault();
+
+        if (newPartner.trim() !== "") {
+            setPartners((prevPartners) => [...prevPartners, newPartner]);
+            setNewPartner("");
+        }
     };
 
     const handleAmountChange = (event) => {
-        setAmount(event.target.value);
+        const inputAmount = event.target.value;
+        if (inputAmount <= maxAmount) {
+            setAmount(inputAmount);
+        } else {
+            console.log("Invalid amount");
+        }
     };
 
     const handleCoinTypeChange = (event) => {
         setCoinType(event.target.value);
-        setAmount(""); // Reset amount when coin type changes
+        setAmount("");
     };
 
     const handleContractDurationChange = (event) => {
@@ -66,25 +109,39 @@ const Smart = () => {
         setSignedContract(!signedContract);
     };
 
-    const handleSubmit = (event) => {
+    const handleFileChange = (event) => {
+        setSelectedFile(event.target.files[0]);
+    };
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
-        // Perform any necessary actions with the form data and the user's wallet address
-        console.log({
-            partner,
-            walletAddress,
-            amount,
-            coinType,
-            contractDuration,
-            signedContract,
-        });
+        const formData = new FormData();
+        formData.append("file", selectedFile);
 
-        // Reset the form fields
-        setPartner("");
-        setAmount("");
-        setCoinType("");
-        setContractDuration("");
-        setSignedContract(false);
+        try {
+            await axios.post("https://example.com/upload", formData, {});
+
+            console.log({
+                partners,
+                walletAddress,
+                amount,
+                coinType,
+                contractDuration,
+                signedContract,
+            });
+
+            setPartners([]);
+            setNewPartner("");
+            setAmount("");
+            setCoinType("");
+            setContractDuration("");
+            setSignedContract(false);
+            setSelectedFile(null);
+        } catch (error) {
+            console.error(error);
+            alert("Failed to submit the form. Please try again.");
+        }
     };
 
     return (
@@ -99,23 +156,50 @@ const Smart = () => {
                     </li>
                 </ul>
             </nav>
-
+            <h1 id="contract_header">Contract Creator</h1>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="partner-select">
-                    Select Partner:
+                    Select Partners:
                     <select
                         name="partner"
                         id="partner-select"
-                        value={partner}
+                        multiple
+                        value={partners}
                         onChange={handlePartnerChange}
                     >
-                        <option value="">Select a partner</option>
-                        <option value="partner1">Partner 1</option>
-                        <option value="partner2">Partner 2</option>
-                        <option value="partner3">Partner 3</option>
+                        {partners.map((partner) => (
+                            <option key={partner} value={partner}>
+                                {partner}
+                            </option>
+                        ))}
                     </select>
                 </label>
 
+                <label htmlFor="new-partner-input">
+                    Add New Partner:
+                    <input
+                        type="text"
+                        id="new-partner-input"
+                        value={newPartner}
+                        onChange={handleNewPartnerChange}
+                    />
+                    <button type="button" onClick={handleNewPartnerSubmit}>
+                        Add
+                    </button>
+                </label>
+                <div className="partners-container">
+                    {partners.map((partner) => (
+                        <div key={partner} class="column">
+                            <h2>{partner}</h2>
+
+                            {partners.concat(walletAddress).map((partner) => (
+                                <>
+                                    < input className="address" name={partner} placeholder={partner} />
+                                </>
+                            ))}
+                        </div>
+                    ))}
+                </div>
                 <label htmlFor="wallet-address-input">
                     Wallet Address:
                     <input
@@ -129,10 +213,12 @@ const Smart = () => {
                 <label htmlFor="amount-input">
                     Amount:
                     <input
-                        type="text"
+                        type="number"
                         id="amount-input"
                         value={amount}
                         onChange={handleAmountChange}
+                        min={0}
+                        max={maxAmount}
                     />
                 </label>
 
@@ -150,7 +236,8 @@ const Smart = () => {
                                 key={account.pubkey.toBase58()}
                                 value={account.pubkey.toBase58()}
                             >
-                                {account.pubkey.toBase58()} (Balance: {account.account.data.parsed.info.tokenAmount.uiAmount})
+                                {account.pubkey.toBase58()} (Balance:{" "}
+                                {account.account.data.parsed.info.tokenAmount.uiAmount})
                             </option>
                         ))}
                     </select>
@@ -181,9 +268,19 @@ const Smart = () => {
                     />
                 </label>
 
+                <label htmlFor="file-input">
+                    Contract File:
+                    <input
+                        type="file"
+                        id="file-input"
+                        accept=".pdf"
+                        onChange={handleFileChange}
+                    />
+                </label>
+
                 <button type="submit">Submit</button>
-            </form>
-        </div>
+            </form >
+        </div >
     );
 };
 
