@@ -17,6 +17,7 @@ body {
   right: 0;
   background-color: rgb(253, 249, 249); /* Set your desired background color */
   direction: rtl;
+  display: flex;
   width: 100%;
   z-index: 9999;
 }
@@ -31,19 +32,20 @@ body {
 
 .navbar li {
   float: left;
+  margin: 0 3rem 0 0;
 }
 
 .navbar li a {
   display: block;
   color: var(--smoky-black);
   text-align: center;
-  padding: 14px 16px;
+  padding: 8px 16px;
   text-decoration: none;
   transition: all 0.1s ease-in-out;
 }
 
 .navbar li a:hover {
-  background-color: var(--mantis);
+  background-color: #0056b3;
   color: white;
 }
 
