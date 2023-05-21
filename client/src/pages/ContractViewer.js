@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
+import "../styles/ContractViewer.css";
 
-function ContractViewer() {
+const ContractViewer = () => {
   const [contractAddress, setContractAddress] = useState("");
   const [contractName, setContractName] = useState("");
   const [contractAmount, setContractAmount] = useState("");
@@ -22,8 +23,18 @@ function ContractViewer() {
     setPartnerWalletAddress(simulatedPartnerWalletAddress);
   }, []);
 
+  const handleAcceptContract = () => {
+    // Logic for accepting the contract
+    console.log("Contract accepted");
+  };
+
+  const handleRejectContract = () => {
+    // Logic for rejecting the contract
+    console.log("Contract rejected");
+  };
+
   return (
-    <div>
+    <div className="container">
       <h1>Music Blockchain Contract Viewer</h1>
 
       <div id="contract-info">
@@ -44,8 +55,12 @@ function ContractViewer() {
           <strong>Partner Wallet Address:</strong> {partnerWalletAddress}
         </p>
       </div>
+      <div id="contract-actions">
+        <button onClick={handleAcceptContract}>Accept Contract</button>
+        <button onClick={handleRejectContract}>Reject Contract</button>
+      </div>
     </div>
   );
-}
+};
 
 export default ContractViewer;

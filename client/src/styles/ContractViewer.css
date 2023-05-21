@@ -1,0 +1,46 @@
+/* contractViewer.css */
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#contract-info {
+  margin-bottom: 40px;
+}
+
+#contract-info h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+#contract-info p {
+  margin-bottom: 5px;
+}
+
+#contract-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+#contract-actions button {
+  margin-right: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+#contract-actions button:last-child {
+  margin-right: 0;
+  background-color: #f44336;
+}
