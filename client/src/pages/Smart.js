@@ -9,7 +9,7 @@ const Smart = () => {
     const [coinType, setCoinType] = useState("");
     const [contractDuration, setContractDuration] = useState("");
     const [signedContract, setSignedContract] = useState(false);
-    const [coinTypeOptions, setCoinTypeOptions] = useState([]);
+    const [tokenAccounts, setTokenAccounts] = useState([]);
 
     useEffect(() => {
         const connectToSolana = async () => {
@@ -20,7 +20,7 @@ const Smart = () => {
                 const publicKey = wallet.publicKey;
 
                 setWalletAddress(publicKey.toBase58());
-                fetchTokenBalances(connection, publicKey);
+                fetchTokenAccounts(connection, publicKey);
             } catch (error) {
                 console.error(error);
                 alert("Failed to connect to Solana. Please try again.");
@@ -30,24 +30,19 @@ const Smart = () => {
         connectToSolana();
     }, []);
 
-    const fetchTokenBalances = async (connection, publicKey) => {
-        const tokenAddresses = [
-            "So11111111111111111111111111111111111111112", // Example token address
-        ];
+    const fetchTokenAccounts = async (connection, publicKey) => {
+        const SPL_TOKEN_PROGRAM_ID = new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
 
-
-        const balances = {};
-        for (const tokenAddress of tokenAddresses) {
-            const publicKeyObj = new PublicKey(publicKey);
-
-            // Fetch token balance using Solana-specific methods
-            const balance = await connection.getTokenAccountBalance(publicKeyObj);
-            const parsedBalance = balance.value.uiAmount;
-
-            balances[tokenAddress] = parsedBalance;
+        try {
+            const tokenAccounts = await connection.getParsedTokenAccountsByOwner(publicKey, {
+                programId: SPL_TOKEN_PROGRAM_ID
+            });
+            console.log(tokenAccounts.value);
+            setTokenAccounts(tokenAccounts.value);
+        } catch (error) {
+            console.error(error);
+            alert("Failed to fetch token accounts. Please try again.");
         }
-        setCoinTypeOptions(balances);
-
     };
 
     const handlePartnerChange = (event) => {
@@ -150,9 +145,12 @@ const Smart = () => {
                         onChange={handleCoinTypeChange}
                     >
                         <option value="">Select a coin type</option>
-                        {Object.entries(coinTypeOptions).map(([tokenAddress, balance]) => (
-                            <option key={tokenAddress} value={tokenAddress}>
-                                {tokenAddress} (Balance: {balance})
+                        {tokenAccounts.map((account) => (
+                            <option
+                                key={account.pubkey.toBase58()}
+                                value={account.pubkey.toBase58()}
+                            >
+                                {account.pubkey.toBase58()} (Balance: {account.account.data.parsed.info.tokenAmount.uiAmount})
                             </option>
                         ))}
                     </select>
