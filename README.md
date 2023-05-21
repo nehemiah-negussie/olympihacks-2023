@@ -29,10 +29,15 @@ The Handshake Protocol is a blockchain-based system that facilitates collaborati
 ### Key Components of the Handshake Protocol:
 
 **Partners**: Individuals or entities participating in the collaboration. They contribute their skills, resources, and expertise to the project.
+
 **Partner-Role Relationships**: Each partner is assigned specific roles within the collaboration, outlining their responsibilities and tasks.
+
 **Verifiers:** Independent third-party entities responsible for verifying the completion of assigned roles and validating the integrity of the collaboration.
+
 **Verifier-Role Relationships:** Verifiers are assigned specific roles to ensure impartial evaluation and verification of role completion.
+
 **Collateral:** A predetermined amount of money or assets provided by partners as a form of security. It acts as an incentive for partners to fulfill their assigned roles and discourages non-compliance.
+
 **Partner Payments:** Financial transactions that occur between partners based on the completion of roles. Partners who successfully fulfill their roles are entitled to receive payments from other partners.
 
 #### Scenario 1: Successful Collaboration
