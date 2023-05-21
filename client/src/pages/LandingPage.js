@@ -38,7 +38,7 @@ const LandingPage = () => {
             <p>
               Sign up to start collaborating securely.
             </p>
-            <button className="cta-button">Get Started</button>
+            <a href="/app"><button className="cta-button">Get Started</button></a>
           </section>
         </section>
 

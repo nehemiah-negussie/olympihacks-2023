@@ -18,17 +18,23 @@ const Smart = () => {
 
     useEffect(() => {
         const connectToSolana = async () => {
-            try {
-                const connection = new Connection("https://api.devnet.solana.com");
-                await window.solana.connect();
-                const wallet = window.solana;
-                const publicKey = wallet.publicKey;
+            let count = 0;
+            let maxTries = 3;
+            while (true) {
+                try {
+                    const connection = new Connection("https://api.devnet.solana.com");
+                    await window.solana.connect();
+                    const wallet = window.solana;
+                    const publicKey = wallet.publicKey;
 
-                setWalletAddress(publicKey.toBase58());
-                fetchTokenAccounts(connection, publicKey);
-            } catch (error) {
-                console.error(error);
-                alert("Failed to connect to Solana. Please try again.");
+                    setWalletAddress(publicKey.toBase58());
+                    fetchTokenAccounts(connection, publicKey);
+                    break;
+                } catch (error) {
+                    console.error(error);
+                    alert("Failed to connect to Solana. Please try again.");
+                    if (++count === maxTries) break;
+                }
             }
         };
 
@@ -186,6 +192,7 @@ const Smart = () => {
                         id="new-partner-input"
                         value={newPartner}
                         onChange={handleNewPartnerChange}
+                        placeholder="Solana Address"
                     />
                     <button type="button" onClick={handleNewPartnerSubmit}>
                         Add
